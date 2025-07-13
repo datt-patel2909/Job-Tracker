@@ -1,0 +1,79 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+#app {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.hidden {
+  display: none;
+}
+
+ul#jobsList {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+ul#jobsList li {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  position: relative;
+}
+
+ul#jobsList .job-status {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 4px 8px;
+  background-color: #eee;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: #333;
+}
+
+ul#jobsList button {
+  margin-left: 5px;
+  padding: 5px 10px;
+  font-size: 0.9em;
+}
+
+ul#jobsList .actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}

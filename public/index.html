@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Tracker App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Login View -->
+    <section id="login-view">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="email" id="login-email" placeholder="Email" required />
+        <input type="password" id="login-password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+      <p>No account? <a href="#" id="to-register">Register here</a></p>
+    </section>
+
+    <!-- Register View -->
+    <section id="register-view" class="hidden">
+      <h2>Register</h2>
+      <form id="registerForm">
+        <input type="text" id="reg-name" placeholder="Name" required />
+        <input type="email" id="reg-email" placeholder="Email" required />
+        <input type="password" id="reg-password" placeholder="Password" required />
+        <button type="submit">Register</button>
+      </form>
+      <p>Already have an account? <a href="#" id="to-login">Login here</a></p>
+    </section>
+
+    <!-- Dashboard View -->
+    <section id="dashboard-view" class="hidden">
+      <h2>Welcome to Dashboard</h2>
+      <form id="jobForm">
+        <input type="text" id="position" placeholder="Job Position" required />
+        <input type="text" id="company" placeholder="Company" required />
+        <select id="status">
+          <option value="pending">Pending</option>
+          <option value="interview">Interview</option>
+          <option value="declined">Declined</option>
+        </select>
+        <button type="submit">Save Job</button>
+      </form>
+
+      <ul id="jobsList">
+        <!-- Jobs will be populated here -->
+      </ul>
+
+      <button id="logoutBtn">Logout</button>
+    </section>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

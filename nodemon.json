@@ -1,0 +1,12 @@
+{
+  "watch": ["."],
+  "ignore": ["node_modules"],
+  "legacyWatch": false,
+  "restartable": "rs",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "execMap": {
+    "js": "node"
+  }
+}
