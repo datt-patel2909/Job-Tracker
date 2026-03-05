@@ -33,36 +33,43 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
+
       scriptSrc: [
         "'self'",
         "'unsafe-inline'",
         "https://accounts.google.com",
         "https://apis.google.com"
       ],
+
       styleSrc: [
         "'self'",
         "'unsafe-inline'",
-        "https://fonts.googleapis.com"
+        "https://fonts.googleapis.com",
+        "https://accounts.google.com"
       ],
+
       imgSrc: [
         "'self'",
         "data:",
         "https://lh3.googleusercontent.com"
       ],
+
       frameSrc: [
         "'self'",
         "https://accounts.google.com"
       ],
+
       connectSrc: [
         "'self'",
         "https://accounts.google.com",
         "https://oauth2.googleapis.com"
       ],
+
       fontSrc: [
         "'self'",
         "https://fonts.gstatic.com"
       ]
-    },
+    }
   })
 );
 app.use(cors());
