@@ -29,7 +29,19 @@ app.use(ratelimiter({
   max: 100,
 }));
 app.use(express.json());
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://accounts.google.com", "https://apis.google.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://accounts.google.com"],
+      frameSrc: ["'self'", "https://accounts.google.com"],
+      imgSrc: ["'self'", "data:", "https://*.googleusercontent.com", "https://accounts.google.com"],
+      connectSrc: ["'self'", "https://accounts.google.com"],
+    },
+  },
+  crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+}));
 app.use(cors());
 app.use(xss());
 
