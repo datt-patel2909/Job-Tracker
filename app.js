@@ -29,19 +29,42 @@ app.use(ratelimiter({
   max: 100,
 }));
 app.use(express.json());
-app.use(helmet({
-  contentSecurityPolicy: {
+app.use(
+  helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://accounts.google.com", "https://apis.google.com"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://accounts.google.com"],
-      frameSrc: ["'self'", "https://accounts.google.com"],
-      imgSrc: ["'self'", "data:", "https://*.googleusercontent.com", "https://accounts.google.com"],
-      connectSrc: ["'self'", "https://accounts.google.com"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://accounts.google.com",
+        "https://apis.google.com"
+      ],
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://fonts.googleapis.com"
+      ],
+      imgSrc: [
+        "'self'",
+        "data:",
+        "https://lh3.googleusercontent.com"
+      ],
+      frameSrc: [
+        "'self'",
+        "https://accounts.google.com"
+      ],
+      connectSrc: [
+        "'self'",
+        "https://accounts.google.com",
+        "https://oauth2.googleapis.com"
+      ],
+      fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com"
+      ]
     },
-  },
-  crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
-}));
+  })
+);
 app.use(cors());
 app.use(xss());
 
