@@ -60,9 +60,13 @@ const forgotPassword = async (req, res) => {
     user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
     await user.save();
 
-    // Send Email
+    // Manually resolve smtp.gmail.com to IPv4 to avoid ENETUNREACH on Render
+    const dns = require('dns');
+    const addresses = await dns.promises.resolve4('smtp.gmail.com');
+    const smtpIpv4 = addresses[0];
+
     const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        host: smtpIpv4,
         port: 465,
         secure: true,
         auth: {
@@ -71,14 +75,6 @@ const forgotPassword = async (req, res) => {
         },
         tls: {
             servername: 'smtp.gmail.com'
-        },
-        // Force IPv4 to avoid ENETUNREACH on Render
-        dnsLookup: (hostname, options, callback) => {
-            const dns = require('dns');
-            dns.resolve4(hostname, (err, addresses) => {
-                if (err) return callback(err);
-                callback(null, addresses[0], 4);
-            });
         }
     });
 
