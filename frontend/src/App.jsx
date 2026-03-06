@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useAuth } from './context/AuthContext';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -21,17 +20,15 @@ const PublicRoute = ({ children }) => {
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<PublicRoute><Home /></PublicRoute>} />
-          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-          <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-          <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        </Routes>
-      </Router>
-    </GoogleOAuthProvider>
+    <Router>
+      <Routes>
+        <Route path="/" element={<PublicRoute><Home /></PublicRoute>} />
+        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+        <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+        <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      </Routes>
+    </Router>
   );
 }
 

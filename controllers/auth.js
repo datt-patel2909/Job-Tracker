@@ -80,10 +80,11 @@ const forgotPassword = async (req, res) => {
         await transporter.sendMail(mailOptions);
         res.status(StatusCodes.OK).json({ msg: 'OTP sent to email successfully' });
     } catch (error) {
+        console.error('Nodemailer Error:', error);
         user.resetPasswordOtp = undefined;
         user.resetPasswordExpire = undefined;
         await user.save();
-        throw new BadRequestError('Email could not be sent');
+        throw new BadRequestError('Email could not be sent: ' + error.message);
     }
 };
 
