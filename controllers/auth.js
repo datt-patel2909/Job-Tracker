@@ -59,7 +59,7 @@ const forgotPassword = async (req, res) => {
     user.resetPasswordOtp = otp;
     user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
     await user.save();
-    // Send Email via Resend API (HTTPS — works on Render, unlike SMTP)
+    // Send Email via Brevo API (HTTPS — works on Render, unlike SMTP)
     const emailHtml = `
         <h1>Password Reset</h1>
         <p>You requested a password reset. Here is your 6-digit OTP code:</p>
@@ -68,24 +68,25 @@ const forgotPassword = async (req, res) => {
     `;
 
     try {
-        const response = await fetch('https://api.resend.com/emails', {
+        const response = await fetch('https://api.brevo.com/v3/smtp/email', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-                'Content-Type': 'application/json'
+                'accept': 'application/json',
+                'api-key': process.env.BREVO_API_KEY,
+                'content-type': 'application/json'
             },
             body: JSON.stringify({
-                from: `Job Tracker <${process.env.EMAIL_FROM || 'onboarding@resend.dev'}>`,
-                to: [email],
+                sender: { name: 'Job Tracker', email: process.env.EMAIL_USER },
+                to: [{ email: email }],
                 subject: 'Job Tracker Password Reset OTP',
-                html: emailHtml
+                htmlContent: emailHtml
             })
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-            console.error('Resend API Error:', data);
+            console.error('Brevo API Error:', data);
             throw new Error(data.message || 'Email service error');
         }
 
