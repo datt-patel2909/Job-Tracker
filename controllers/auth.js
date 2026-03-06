@@ -68,6 +68,17 @@ const forgotPassword = async (req, res) => {
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS
+        },
+        tls: {
+            servername: 'smtp.gmail.com'
+        },
+        // Force IPv4 to avoid ENETUNREACH on Render
+        dnsLookup: (hostname, options, callback) => {
+            const dns = require('dns');
+            dns.resolve4(hostname, (err, addresses) => {
+                if (err) return callback(err);
+                callback(null, addresses[0], 4);
+            });
         }
     });
 

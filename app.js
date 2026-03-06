@@ -1,3 +1,7 @@
+// Force IPv4 DNS resolution globally (fixes ENETUNREACH on Render)
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
+
 require('dotenv').config();
 require('express-async-errors');
 const express = require('express');
