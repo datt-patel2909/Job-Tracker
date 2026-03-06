@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import { Eye, EyeOff, ArrowLeft, RefreshCcw } from 'lucide-react';
 import api from '../api/axios';
 
 const ForgotPassword = () => {
@@ -164,10 +164,15 @@ const ForgotPassword = () => {
                             <button
                                 type="submit"
                                 className="btn btn-primary"
-                                style={{ width: '100%', padding: '0.875rem' }}
+                                style={{ width: '100%', padding: '0.875rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}
                                 disabled={isLoading}
                             >
-                                {isLoading ? 'Sending OTP...' : 'Send OTP'}
+                                {isLoading ? (
+                                    <>
+                                        <RefreshCcw size={18} className="animate-spin" style={{ animation: 'spin 1s linear infinite' }} />
+                                        Sending OTP...
+                                    </>
+                                ) : 'Send OTP'}
                             </button>
                         </motion.form>
                     )}
@@ -198,10 +203,15 @@ const ForgotPassword = () => {
                             <button
                                 type="submit"
                                 className="btn btn-primary"
-                                style={{ width: '100%', padding: '0.875rem' }}
+                                style={{ width: '100%', padding: '0.875rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}
                                 disabled={isLoading}
                             >
-                                {isLoading ? 'Verifying...' : 'Verify OTP'}
+                                {isLoading ? (
+                                    <>
+                                        <RefreshCcw size={18} className="animate-spin" style={{ animation: 'spin 1s linear infinite' }} />
+                                        Verifying...
+                                    </>
+                                ) : 'Verify OTP'}
                             </button>
                         </motion.form>
                     )}
@@ -272,10 +282,15 @@ const ForgotPassword = () => {
                             <button
                                 type="submit"
                                 className="btn btn-primary"
-                                style={{ width: '100%', padding: '0.875rem' }}
+                                style={{ width: '100%', padding: '0.875rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}
                                 disabled={isLoading}
                             >
-                                {isLoading ? 'Resetting...' : 'Reset Password'}
+                                {isLoading ? (
+                                    <>
+                                        <RefreshCcw size={18} className="animate-spin" style={{ animation: 'spin 1s linear infinite' }} />
+                                        Resetting...
+                                    </>
+                                ) : 'Reset Password'}
                             </button>
                         </motion.form>
                     )}
