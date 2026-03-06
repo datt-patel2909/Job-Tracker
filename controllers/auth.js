@@ -2,7 +2,12 @@ const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, UnauthenticatedError } = require('../errors/index')
 const nodemailer = require('nodemailer')
+const dns = require('dns')
 const { OAuth2Client } = require('google-auth-library');
+
+// Force IPv4 resolution to prevent ENETUNREACH for IPv6 on Render
+dns.setDefaultResultOrder('ipv4first');
+
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const register = async (req, res) => {
