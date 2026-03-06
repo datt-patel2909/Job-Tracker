@@ -59,42 +59,39 @@ const forgotPassword = async (req, res) => {
     user.resetPasswordOtp = otp;
     user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
     await user.save();
-
-    // Manually resolve smtp.gmail.com to IPv4 to avoid ENETUNREACH on Render
-    const dns = require('dns');
-    const addresses = await dns.promises.resolve4('smtp.gmail.com');
-    const smtpIpv4 = addresses[0];
-
-    const transporter = nodemailer.createTransport({
-        host: smtpIpv4,
-        port: 465,
-        secure: true,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        },
-        tls: {
-            servername: 'smtp.gmail.com'
-        }
-    });
-
-    const mailOptions = {
-        from: `Job Tracker App <${process.env.EMAIL_USER}>`,
-        to: email,
-        subject: 'Job Tracker Password Reset OTP',
-        html: `
-            <h1>Password Reset</h1>
-            <p>You requested a password reset. Here is your 6-digit OTP code:</p>
-            <h2 style="background: #f4f4f4; padding: 10px; display: inline-block; letter-spacing: 5px;">${otp}</h2>
-            <p>This code will expire in 10 minutes.</p>
-        `
-    };
+    // Send Email via Resend API (HTTPS — works on Render, unlike SMTP)
+    const emailHtml = `
+        <h1>Password Reset</h1>
+        <p>You requested a password reset. Here is your 6-digit OTP code:</p>
+        <h2 style="background: #f4f4f4; padding: 10px; display: inline-block; letter-spacing: 5px;">${otp}</h2>
+        <p>This code will expire in 10 minutes.</p>
+    `;
 
     try {
-        await transporter.sendMail(mailOptions);
+        const response = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                from: `Job Tracker <${process.env.EMAIL_FROM || 'onboarding@resend.dev'}>`,
+                to: [email],
+                subject: 'Job Tracker Password Reset OTP',
+                html: emailHtml
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error('Resend API Error:', data);
+            throw new Error(data.message || 'Email service error');
+        }
+
         res.status(StatusCodes.OK).json({ msg: 'OTP sent to email successfully' });
     } catch (error) {
-        console.error('Nodemailer Error:', error);
+        console.error('Email Error:', error);
         user.resetPasswordOtp = undefined;
         user.resetPasswordExpire = undefined;
         await user.save();
